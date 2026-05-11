@@ -151,10 +151,10 @@ Berdasarkan tabel di Latihan 1, identifikasi gap.
 
 | Jenis Gap | Ditemukan? | Gap Statement |
 |-----------|-----------|---------------|
-Performance Gap|[x] Ya|Akurasi anjlok (MAPE > 20%) saat terjadi outlier musim liburan|
-Method Gap|[X] Ya|Belum ada penggunaan Attention Mechanism untuk pembobotan fitur promo|
-Data Gap|[ ] Tidak|Data historis penjualan tersedia cukup melimpah|
-Context Gap|[X] Ya|Model belum diuji pada dinamika pasar ritel di Indonesia|
+Performance Gap| Ya|Akurasi anjlok (MAPE > 20%) saat terjadi outlier musim liburan|
+Method Gap| Ya|Belum ada penggunaan Attention Mechanism untuk pembobotan fitur promo|
+Data Gap| Tidak|Data historis penjualan tersedia cukup melimpah|
+Context Gap| Ya|Model belum diuji pada dinamika pasar ritel di Indonesia|
 
 **Gap utama yang dipilih:** ntegrasi fitur kontekstual (promo & hari libur) pada model LSTM untuk meningkatkan akurasi peramalan stok pada periode puncak (peak season)._____________________________
 **Mengapa gap ini penting (bukan sekadar "belum ada yang meneliti")?**
@@ -170,6 +170,8 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 |---|----------|----------------|----------------------|-------------|--------|
 |1|ARIMA,Standar statistik|Paling banyak dipakai industri|Bukan|Bansal (2023)|
 |2|Vanilla LSTM|Standar deep learning|Benchmark riset terbaru|Ya (Basic)|,Abbasimehr (2020)|
+
+
 **Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ ] Tidak
 > Justifikasi:Tidak, karena ARIMA adalah standar industri yang valid dan Vanilla LSTM adalah standar riset yang jujur. Saya tidak membandingkannya dengan metode "asal-asalan". ________________________________________
 
