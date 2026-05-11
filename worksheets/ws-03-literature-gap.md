@@ -77,39 +77,44 @@ Membandingkan deep learning 2024 dengan decision tree sederhana tanpa justifikas
 ```
 LITERATURE MAPPING
 
-Topik      : ____________________
-Database   : ____________________
-Query      : ____________________
-Tahun      : ____________________
-Hasil awal : ____ paper → Screening → ____ paper final
+Topik      : _Manajemen Stok Otomatis menggunakan Deep Learning (LSTM)___________________
+Database   : _Google Scholar, ResearchGate, IEEE Xplore___________________
+Query      : ("inventory forecasting" OR "demand prediction") AND ("LSTM" OR "Deep Learning") AND "Retail"____________________
+Tahun      : 20221-2025____________________
+Hasil awal : _38___ paper → Screening → __5__ paper final
 
 Literature Matrix (concept-centric):
 
 | Study | Tahun | Method | Data | Result | Limitation |
 |-------|-------|--------|------|--------|------------|
-|       |       |        |      |        |            |
+|Abbasimehr et al.|2020|Multi-layer LSTM|Furniture Sales|MAPE 8.2%|Hanya menggunakan data internal histori penjualan tunggal|
+Kanwal et al|2022|Bi-LSTM + GRU|Grocery Store|Acc 94%|Arsitektur terlalu kompleks untuk perangkat komputasi rendah|
+Bansal et al|2023|Hybrid ARIMA-LSTM|FMCG Data|RMSE 12.4|Gagal memprediksi lonjakan mendadak akibat event promo|
+Gao et al|2024|Attention-LSTM|E-commerce|MAE rendah|"Fokus hanya pada barang Fast-Moving, mengabaikan Slow-Moving."|
+Putra et al|2024|LSTM + XGBoost|Retail Lokal|MAPE 11.5%|Dataset sangat terbatas pada satu kategori barang saja|     
 
 Pola yang ditemukan:
-  Metode dominan     : ____________________
-  Dataset umum       : ____________________
-  Limitasi berulang  : ____________________
+  Metode dominan     : Penggunaan varian LSTM (Bi-LSTM atau Hybrid) untuk menangkap pola time-series.____________________
+  Dataset umum       :Dataset kompetisi M5 atau data ritel besar (E-commerce). ____________________
+  Limitasi berulang  : model kesulitan menangkap fluktuasi stok akibat variabel eksternal (hari libur, cuaca, atau promo kompetitor).____________________
 
 GAP IDENTIFICATION
 
 Gap 1: [Jenis: performance / method / data / context]
-  Deskripsi    : ____________________
-  Bukti        : ____________________
-  Signifikansi : ____________________
+  Deskripsi    : Kurangnya penelitian yang menguji ketangguhan LSTM pada ritel skala menengah dengan fluktuasi harga yang ekstrim.____________________
+  Bukti        : Sebagian besar literatur (Abbasimehr, Gao) menggunakan dataset yang sudah teratur dan stabil.____________________
+  Signifikansi : Ritel menengah seringkali memiliki pola yang lebih "berisik" (noisy), sehingga butuh model yang lebih adaptif.____________________
 
-Gap 2: [Jenis: ____]
-  Deskripsi    : ____________________
-  Bukti        : ____________________
-  Signifikansi : ____________________
+Gap 2: [Jenis:method gap]
+  Deskripsi    : _Belum banyak integrasi data eksternal (promo lokal & hari raya) sebagai fitur pendukung pada arsitektur LSTM.___________________
+  Bukti        : Bansal et al. (2023) mengakui kelemahan modelnya saat terjadi lonjakan pesanan mendadak di luar histori rutin.____________________
+  Signifikansi : Menambahkan fitur kontekstual dapat menurunkan angka lost sales secara signifikan____________________
 
 Baseline Selection:
 | Baseline | Relevansi | Representatif | Source |
 |----------|-----------|---------------|--------|
-|          |           |               |        |
+|ARIMa|Metode statistik standar untuk peramalan|Digunakan sebagai pembanding utama di 80% literatur|Bansal et al., 2023|
+|Vanilla LSTM|Model dasar Deep Learning untuk sekuensial|Merupakan standar emas riset saat ini|"Abbasimehr et al., 2020"|        
 ```
 
 ---
@@ -123,20 +128,20 @@ Gunakan topik riset dari WS-02. Cari minimal 5 paper relevan menggunakan databas
 > - Tulis query Boolean yang digunakan: contoh `("object detection" OR "image classification") AND ("edge computing") NOT ("medical")`. Dokumentasikan query secara eksplisit.
 > - Akses gratis: buka Google Scholar → cari judul paper → klik [PDF] jika tersedia, atau akses lewat campus VPN
 
-**Topik riset:** ________________________________________
-**Query pencarian:** ____________________________________
-**Database:** ___________________________________________
+**Topik riset:** Optimasi Prediksi Stok Ritel menggunakan Integrasi LSTM dan Variabel Kontekstual.****________________________________________
+**Query pencarian:** _("LSTM") AND ("Inventory forecasting") AND ("Contextual features")___________________________________
+**Database:** Google Scholar & ResearchGate.___________________________________________
 
 | # | Study | Tahun | Method | Dataset | Result | Limitasi |
 |---|-------|-------|--------|---------|--------|----------|
-| 1 | *Contoh: Rahman et al.* | *2023* | *CNN* | *ImageNet subset* | *Acc 91%* | *Hanya 3 kelas* |
-| 2 | | | | | | |
-| 3 | | | | | | |
-| 4 | | | | | | |
-| 5 | | | | | | |
+| 1 |Abbasimehr|	2020|	Multi-layer LSTM|	Retail sales|	MAPE 8%|	Tidak ada data promo|
+| 2 |Kanwal|	2022|	Bi-LSTM|	Supermarket|	Acc 94%|	Komputasi berat|
+| 3 | Bansal|	2023|	ARIMA-LSTM|	FMCG|	RMSE 12.4|	Gagal saat event mendadak|
+| 4 | Gao|	2024|	Attention-LSTM|	Walmart Data|	MAE 0.05|	Hanya barang laku|
+| 5 | Putra|	2024|	Hybrid ML|	Lokal UKM|	MAPE 11%|Data homogen|
 
-**Pola yang terlihat — Metode dominan:** ___________________
-**Limitasi yang berulang:** ______________________________
+**Pola yang terlihat — Metode dominan:** dipilih karena kemampuannya dalam Long-term dependencies (mengingat tren masa lalu yang jauh).___________________
+**Limitasi yang berulang:** Model bersifat tertutup (hanya melihat histori angka sendiri) tanpa melihat konteks lingkungan (Hari Raya, Promo)______________________________
 
 ---
 
@@ -146,14 +151,14 @@ Berdasarkan tabel di Latihan 1, identifikasi gap.
 
 | Jenis Gap | Ditemukan? | Gap Statement |
 |-----------|-----------|---------------|
-| Performance Gap | [ ] Ya / [ ] Tidak | *Contoh: Akurasi turun di bawah 80% untuk kelas minoritas* |
-| Method Gap | [ ] Ya / [ ] Tidak | |
-| Data Gap | [ ] Ya / [ ] Tidak | |
-| Context Gap | [ ] Ya / [ ] Tidak | |
+Performance Gap|[x] Ya|Akurasi anjlok (MAPE > 20%) saat terjadi outlier musim liburan|
+Method Gap|[X] Ya|Belum ada penggunaan Attention Mechanism untuk pembobotan fitur promo|
+Data Gap|[ ] Tidak|Data historis penjualan tersedia cukup melimpah|
+Context Gap|[X] Ya|Model belum diuji pada dinamika pasar ritel di Indonesia|
 
-**Gap utama yang dipilih:** _____________________________
+**Gap utama yang dipilih:** ntegrasi fitur kontekstual (promo & hari libur) pada model LSTM untuk meningkatkan akurasi peramalan stok pada periode puncak (peak season)._____________________________
 **Mengapa gap ini penting (bukan sekadar "belum ada yang meneliti")?**
-> ___________________________________________________
+> _Karena kesalahan prediksi saat hari besar berakibat fatal secara finansial: stok habis berarti kehilangan pendapatan besar, stok berlebih berarti modal mati dalam jumlah besar.__________________________________________________
 
 ---
 
@@ -163,11 +168,10 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 
 | # | Baseline | Mengapa Relevan | Mengapa Representatif | Apakah SOTA? | Sumber |
 |---|----------|----------------|----------------------|-------------|--------|
-| 1 | *Contoh: RF + TF-IDF* | *Task sama: klasifikasi teks* | *Dipakai 6 dari 10 paper* | *Bukan, tapi common practice* | *Lee et al., 2022* |
-| 2 | | | | | |
-
+|1|ARIMA,Standar statistik|Paling banyak dipakai industri|Bukan|Bansal (2023)|
+|2|Vanilla LSTM|Standar deep learning|Benchmark riset terbaru|Ya (Basic)|,Abbasimehr (2020)|
 **Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ ] Tidak
-> Justifikasi: ________________________________________
+> Justifikasi:Tidak, karena ARIMA adalah standar industri yang valid dan Vanilla LSTM adalah standar riset yang jujur. Saya tidak membandingkannya dengan metode "asal-asalan". ________________________________________
 
 ---
 
@@ -176,5 +180,5 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 > Apa perbedaan antara "belum ada yang meneliti ini" (klaim tanpa bukti) dengan research gap yang valid? Bagaimana cara membuktikan bahwa sebuah gap benar-benar ada?
 
 **Jawaban:**
-> ___________________________________________________
+> klaim "belum ada yang meneliti ini" biasanya bersifat subjektif dan sering kali salah jika literatur tidak dicari dengan teliti. Sebaliknya, Research Gap yang valid harus didukung oleh bukti tertulis dari literatur (seperti tabel matriks di atas) yang menunjukkan batasan konkret dari studi sebelumnya. Cara membuktikannya adalah melalui Literature Mapping; jika kita bisa memetakan 10 paper dan semuanya memiliki kelemahan yang sama, maka gap tersebut nyata dan terbukti ada.___________________________________________________
 > ___________________________________________________
