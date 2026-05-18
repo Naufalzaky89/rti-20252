@@ -94,7 +94,7 @@ Research Question: ____________________
 | Nilai Error Peramalan (MAPE & RMSE) | DV | Metrics Logger & Visualization Dashboard | Fungsi matematika berbasis Scikit-Learn mengekstrak nilai keluaran model dan menghitung nilai MAPE-nya secara otomatis. |
 | Hyperparameter Model | CV | Hyperparameter Config Layer | Mengunci arsitektur jaringan (jumlah hidden layers dan tingkat dropout) di dalam file konfigurasi terpisah agar tidak berubah selama uji coba. |
  
-**Apakah semua variabel bisa di-map?** ✅ Ya
+**Apakah semua variabel bisa di-map?**  Ya
  
 > **Justifikasi:** Arsitektur sistem dirancang secara modular — memisahkan jalur data preparation, pemodelan (core engine), dan evaluasi — sehingga mempermudah pemetaan setiap variabel riset.
  
@@ -104,10 +104,10 @@ Research Question: ____________________
  
 | Prinsip | Status | Bukti / Penjelasan |
 |---------|--------|--------------------|
-| Traceability | ✅ Lulus | Alur kode program mengalir searah dari penyiapan data (IV & CV) menuju fungsi pelatihan hingga menghasilkan metrik pengujian (DV). |
-| Modularity | ✅ Lulus | Komponen feature loader eksternal terpisah dari blok kode utama algoritma LSTM, sehingga data promo bisa dicabut tanpa merusak program. |
-| Controllability | ✅ Lulus | Seluruh parameter kontrol seperti batasan waktu, learning rate, dan ukuran sliding window dikumpulkan di satu file konfigurasi (`config.json`). |
-| Measurability | ✅ Lulus | Setiap kali iterasi pelatihan (epoch) atau pengujian selesai, sistem langsung memicu fungsi kalkulasi skor akurasi dan menyimpannya secara permanen. |
+| Traceability |  Lulus | Alur kode program mengalir searah dari penyiapan data (IV & CV) menuju fungsi pelatihan hingga menghasilkan metrik pengujian (DV). |
+| Modularity |  Lulus | Komponen feature loader eksternal terpisah dari blok kode utama algoritma LSTM, sehingga data promo bisa dicabut tanpa merusak program. |
+| Controllability |  Lulus | Seluruh parameter kontrol seperti batasan waktu, learning rate, dan ukuran sliding window dikumpulkan di satu file konfigurasi (`config.json`). |
+| Measurability |  Lulus | Setiap kali iterasi pelatihan (epoch) atau pengujian selesai, sistem langsung memicu fungsi kalkulasi skor akurasi dan menyimpannya secara permanen. |
  
 **Prinsip paling sulit dipenuhi:** Controllability
  
@@ -124,20 +124,20 @@ Research Question: ____________________
  
 | Kondisi | Komponen A (Histori) | Komponen B (Promo) | Komponen C (Libur) | Hasil yang Diharapkan |
 |---------|----------------------|--------------------|--------------------|----------------------|
-| Full | ✅ Aktif | ✅ Aktif | ✅ Aktif | Nilai MAPE terendah (akurasi paling optimal secara menyeluruh). |
-| – B | ✅ Aktif | ❌ Non-Aktif | ✅ Aktif | Akurasi menurun pada hari kerja biasa yang memiliki program diskon mendadak. |
-| – C | ✅ Aktif | ✅ Aktif | ❌ Non-Aktif | Akurasi anjlok drastis pada periode libur panjang/Lebaran (peak season error). |
-| Baseline | ✅ Aktif | ❌ Non-Aktif | ❌ Non-Aktif | Model Vanilla LSTM standar (hanya membaca pola masa lalu tanpa tahu situasi pasar). |
+| Full |  Aktif | Aktif |  Aktif | Nilai MAPE terendah (akurasi paling optimal secara menyeluruh). |
+| – B |  Aktif |  Non-Aktif |  Aktif | Akurasi menurun pada hari kerja biasa yang memiliki program diskon mendadak. |
+| – C |  Aktif |  Aktif |  Non-Aktif | Akurasi anjlok drastis pada periode libur panjang/Lebaran (peak season error). |
+| Baseline |  Aktif |  Non-Aktif |  Non-Aktif | Model Vanilla LSTM standar (hanya membaca pola masa lalu tanpa tahu situasi pasar). |
  
-**Komponen yang diprediksi paling berkontribusi:** Komponen C (Fitur Hari Libur Nasional)
+Komponen yang diprediksi paling berkontribusi:** Komponen C (Fitur Hari Libur Nasional)
  
-> **Alasan:** Di Indonesia, siklus hari libur keagamaan (seperti Ramadan dan Lebaran) menciptakan lonjakan volume belanja (*demand spike*) hingga berkali-kali lipat dari hari biasa. Jika fitur ini dihilangkan, model LSTM akan mengalami kebingungan karena menganggap lonjakan tersebut sebagai gangguan acak (*noise*), bukan sebagai pola berulang tahunan.
+alsaaan: Di Indonesia, siklus hari libur keagamaan (seperti Ramadan dan Lebaran) menciptakan lonjakan volume belanja (demand spike) hingga berkali-kali lipat dari hari biasa. Jika fitur ini dihilangkan, model LSTM akan mengalami kebingungan karena menganggap lonjakan tersebut sebagai gangguan acak (noise), bukan sebagai pola berulang tahunan.
  
 ---
  
-## 💡 Refleksi
+##  Refleksi
  
- Risiko terbesar jika membangun sistem riset seperti produk komersial (monolitik dan langsung kaya fitur) adalah munculnya **efek bias tersembunyi**. Ketika eksperimen dilakukan dan hasilnya buruk atau justru sangat bagus, peneliti akan kesulitan melacak komponen mana yang sebenarnya membawa dampak tersebut karena semua kode saling terikat erat (*tightly coupled*).
+ Risiko terbesar jika membangun sistem riset seperti produk komersial (monolitik dan langsung kaya fitur) adalah munculnya efek bias tersembunyi. Ketika eksperimen dilakukan dan hasilnya buruk atau justru sangat bagus, peneliti akan kesulitan melacak komponen mana yang sebenarnya membawa dampak tersebut karena semua kode saling terikat erat (tightly coupled).
  
-> Arsitektur modular sangat krusial dalam dunia riset karena mengizinkan kita melakukan **Isolasi Variabel**. Kita bisa secara adil membandingkan performa dengan skema mencabut satu komponen (seperti pada *Ablation Study*) tanpa perlu merombak atau menulis ulang baris kode sistem dari awal. Hal ini menjamin transparansi, keadilan pengujian, dan aspek reprodusibilitas riset.
+> Arsitektur modular sangat krusial dalam dunia riset karena mengizinkan kita melakukan Isolasi Variabel. Kita bisa secara adil membandingkan performa dengan skema mencabut satu komponen (seperti pada Ablation Study) tanpa perlu merombak atau menulis ulang baris kode sistem dari awal. Hal ini menjamin transparansi, keadilan pengujian, dan aspek reprodusibilitas riset.
  
