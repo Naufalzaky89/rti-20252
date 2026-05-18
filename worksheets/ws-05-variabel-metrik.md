@@ -49,7 +49,7 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 | Aspek | Engineering | Research |
 |-------|------------|----------|
 | Pemilihan metrik | Berdasarkan kebiasaan/tool yang ada | Berdasarkan construct validity |
-| Anomali | Dihapus untuk laporan bersih | Diinvestigasi — bisa jadi temuan |
+| Anomali | Dihapus untuk laporan bersih | Diinvestigasi  bisa jadi temuan |
 | Kapan dipilih | Setelah sistem jadi (monitoring) | Sebelum eksperimen (by design) |
 
 ### Istilah Penting
@@ -70,7 +70,7 @@ Research Question: Apakah integrasi fitur kontekstual (promo dan hari libur) pad
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
 |----------|------|--------|--------|-------|--------|---------------|-------------|
-|Arsitektur Model|IV|Pendekatan pemodelan sekuensial deret waktu|Jenis konfigurasi input model (Vanilla LSTM vs Contextual-LSTM)|Nominal|-|Menentukan variasi perlakuan algoritma pada eksperimen|Pembanding langsung untuk melihat efek intervensi fitur tambahan|
+|Arsitektur Model|IV|Pendekatan pemodelan sekuensial deret waktu|Jenis konfigurasi input model (Vanilla LSTM vs Contextual-LSTM)|Nominal|Menentukan variasi perlakuan algoritma pada eksperimen|Pembanding langsung untuk melihat efek intervensi fitur tambahan|
 |Akurasi Peramalan|DV|Tingkat kedekatan hasil prediksi stok terhadap permintaan aktual|Mean Absolute Percentage Error (MAPE)|Ratio|Persen (%)|Menghitung rata-rata persentase absolut selisih prediksi dengan nilai riil|Standardisasi internasional untuk mengukur performa model forecasting ritel|
 |Karakteristik Data Historis|CV|Konsistensi data masa lalu yang digunakan untuk training|Rentang waktu pengerjaan data (Sliding Window 12 bulan)|Ratio|Bulan|Membatasi panjang memori deret waktu yang dipelajari model|Menjamin kestabilan lingkungan pengujian agar adil (fair comparison)|
 
