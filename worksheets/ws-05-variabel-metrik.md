@@ -1,3 +1,4 @@
+```
 # WS-05: Variabel & Metrik
 
 > **Bab 5 — Metric, Measurement & Data**
@@ -10,9 +11,9 @@
 
 Setiap pengukuran yang valid harus bisa ditelusuri melalui rantai ini tanpa lompatan logis:
 
-```
+
 Problem → Concept → Variable → Metric → Data → Result
-```
+
 
 ### Operationalization = Keputusan Desain
 
