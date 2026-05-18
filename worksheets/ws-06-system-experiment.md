@@ -74,7 +74,7 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 - **Configuration-driven Execution** — Semua parameter di config file, bukan hardcoded
 
 ---
-
+```
 ## Template A.6 — Mapping RQ ke Arsitektur Sistem
 
 ```
@@ -83,7 +83,8 @@ SYSTEM-EXPERIMENT MAPPING
 Research Question: ____________________
 
 Apakah integrasi fitur kontekstual (promo dan hari libur) pada arsitektur LSTM dapat menurunkan nilai Mean Absolute Percentage Error (MAPE) secara signifikan dibandingkan dengan model Vanilla LSTM pada dataset ritel menengah?
- 
+
+
 ---
  
  Latihan 1 — Variable-to-Component Mapping
