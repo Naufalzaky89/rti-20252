@@ -3,7 +3,7 @@
 > **Bab 7 — Experimental Design & Validity**
 
 ---
-
+---
 ## Ringkasan Materi
 
 ### Correlation ≠ Causality
@@ -65,96 +65,62 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 
 ## Template A.7 — Desain Eksperimen Lengkap
 
-```
+
 EXPERIMENT DESIGN
 
-Research Question : ____________________
-Hypothesis        : ____________________
-Tipe Eksperimen   : [ ] Comparison  [ ] Ablation  [ ] Parameter
-
-Kondisi Eksperimen:
+"Apakah integrasi fitur kontekstual (promo dan hari libur) pada arsitektur LSTM dapat menurunkan nilai Mean Absolute Percentage Error (MAPE) secara signifikan dibandingkan dengan model Vanilla LSTM pada dataset ritel menengah?"
+ 
+Hypothesis:
+- H0: MAPE_Contextual-LSTM >= MAPE_Vanilla-LSTM (Tidak ada penurunan error yang signifikan)
+- H1: MAPE_Contextual-LSTM < MAPE_Vanilla-LSTM (Integrasi fitur kontekstual menurunkan nilai error secara signifikan)
+Latihan 1 - Desain Eksperimen
+ 
+Tipe Eksperimen: Comparison & Ablation
+ 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control |           |          |             |
-| Treatment |         |          |             |
-
-Fairness Checklist:
-  [ ] Dataset identik untuk semua kondisi
-  [ ] Preprocessing setara
-  [ ] Tuning effort setara
-  [ ] Environment identik
-  [ ] Metrik evaluasi sama
-
-Threat Analysis:
-| Threat Type | Ancaman Spesifik | Mitigasi |
-|-------------|-----------------|----------|
-| Internal    |                 |          |
-| External    |                 |          |
-| Construct   |                 |          |
-| Conclusion  |                 |          |
-
-Statistical Plan:
-  Uji statistik   : ____________________
-  Justifikasi      : ____________________
-  Alpha            : ____________________
-  Effect size min  : ____________________
-```
-
----
-
-## Latihan 1 — Desain Eksperimen
-
-Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai WS-06.
-
-**RQ:** __________________________________________________
-**Tipe eksperimen:** [ ] Comparison / [ ] Ablation / [ ] Parameter
-
-| Kondisi | Deskripsi | IV Value | CV Settings |
-|---------|-----------|----------|-------------|
-| Control | *Contoh: RF baseline dari literatur* | *RF* | *Dataset X, 80:20 split, seed 42* |
-| Treatment | | | |
-
----
-
-## Latihan 2 — Fairness Checklist
-
-Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
-
+| Control | Menguji arsitektur LSTM standar sebagai baseline pembanding riset. | Vanilla LSTM (Tanpa data promo/libur). | Dataset Penjualan Ritel XYZ, Learning Rate 0.001, Optimizer Adam, Batch Size 32. |
+| Treatment 1 | Menguji pengaruh parsial dari variabel promo internal saja (Ablation). | LSTM + Fitur Promo saja. | Dataset Penjualan Ritel XYZ, Learning Rate 0.001, Optimizer Adam, Batch Size 32. |
+| Treatment 2 | Menguji pengaruh gabungan penuh dari seluruh fitur kontekstual (Full Usulan). | LSTM + Fitur Promo + Fitur Hari Libur Nasional. | Dataset Penjualan Ritel XYZ, Learning Rate 0.001, Optimizer Adam, Batch Size 32. |
+ 
+ 
+Latihan 2 - Fairness Checklist
+ 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | *Contoh: ✅ — sama-sama pakai CIC-MalMem-2022* | |
-| Preprocessing setara | | |
-| Tuning effort setara | | |
-| Environment identik | | |
-| Metrik evaluasi sama | | |
-
-**Ada yang tidak fair?** [ ] Ya / [ ] Tidak
-> Jika ya, bagaimana cara memperbaikinya? ________________
-
----
-
-## Latihan 3 — Threat Analysis
-
-Identifikasi ancaman validitas untuk desain eksperimen ini.
-
+| Dataset identik | Fair | Semua skema (Control dan Treatment) menggunakan basis berkas log transaksi dari toko retail fisik yang sama tanpa modifikasi record. |
+| Preprocessing setara | Fair | Teknik penanganan missing value dan normalisasi data (MinMax Scaler) dilakukan serentak lewat satu pipeline induk yang sama. |
+| Tuning effort setara | Fair | Jumlah lapisan tersembunyi (hidden layers), parameter dropout rate, dan batasan jumlah epochs dikunci sama besar di file konfigurasi. |
+| Environment identik | Fair | Seluruh pengujian dijalankan pada mesin server lokal yang sama (spesifikasi CPU/GPU dan versi library TensorFlow yang identik). |
+| Metrik evaluasi sama | Fair | Menggunakan blok kode matematika fungsi evaluasi yang sama untuk menghitung skor MAPE dan RMSE akhir. |
+ 
+Ada yang tidak fair? Tidak
+ 
+Justifikasi: Tidak ada ketidakadilan pengujian, karena arsitektur jaringan Deep Learning ditahan konstan (CV) dan satu-satunya hal yang diubah (swap/toggle) hanyalah dimensi jumlah kolom matriks input data yang diumpankan ke model (IV).
+ 
+ 
+Latihan 3 - Threat Analysis
+ 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | *Contoh: Data leakage antara train-test* | *Contoh: Gunakan stratified split, validasi tidak ada overlap* |
-| External | | |
-| Construct | | |
-| Conclusion | | |
-
-**Ancaman mana yang paling sulit dimitigasi?** _____________
-**Mengapa?**
-> ___________________________________________________
-
+| Internal | Perubahan drastis layout fisik tata letak barang di toko selama masa pencatatan data yang mengubah psikologi belanja konsumen. | Mengonfirmasi kepada pihak manajemen ritel untuk memastikan data diambil pada periode operasional yang stabil tanpa perombakan ekstrim toko. |
+| External | Pola belanja musiman masyarakat sangat terikat dengan budaya lokal (misal: lonjakan THR Lebaran di Indonesia), sehingga model tidak akurat jika dibawa ke luar negeri. | Menjelaskan secara eksplisit di bab batasan penelitian bahwa konteks makro riset ini adalah karakteristik pasar ritel domestik Indonesia. |
+| Construct | Nilai MAPE bisa menghasilkan angka tidak terdefinisi (infinity) apabila angka penjualan riil menyentuh 0 unit. | Menggunakan formula alternatif Symmetric MAPE (sMAPE) atau MASE (Mean Absolute Scaled Error) sebagai pengaman pendukung. |
+| Conclusion | Ukuran sampel data transaksi terlalu pendek (misal hanya 3 bulan), sehingga model gagal membuktikan pola musiman tahunan secara valid. | Mewajibkan batas minimal panjang data historis yang ditarik dari sistem POS minimal selama 2 hingga 3 tahun kalender penuh. |
+ 
+Ancaman paling sulit dimitigasi: External Validity (Konteks Musiman Lokal)
+ 
+Karena perilaku konsumen ritel kelas menengah di Indonesia sangat dipengaruhi oleh budaya unik (seperti fenomena mudik dan pencairan dana THR menjelang Idulfitri) yang polanya tidak ditemukan pada dataset ritel global populer seperti Walmart (AS). Oleh karena itu, generalisasi model ini akan selalu terbatas pada wilayah dengan budaya demografis sejenis.
+ 
+ 
+Refleksi
+ 
+Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Berikut 3 pertanyaan evaluasi kritis:
+ 
+1. Apakah baseline sudah di-tuning dengan usaha yang setara (fair tuning effort)?
+   Atau baseline sengaja dibiarkan menggunakan default parameters agar terlihat lemah? (Mengecek adanya Straw Man Comparison)
+2. Apakah pembagian dataset menggunakan kaidah yang benar (Time-Series Split)?
+   Atau terjadi kebocoran data (Data Leakage) yang membuat metode usulan terlihat unggul secara semu? (Mengecek Internal Validity)
+3. Apakah perbaikan metrik sudah diuji secara signifikansi statistik (P-Value < 0.05)?
+   Atau selisih keunggulannya sangat tipis dan masuk dalam rentang margin error acak? (Mengecek Conclusion Validity)
 ---
-
-## Refleksi
-
-> Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
-
-**Jawaban:**
-1. ___________________________________________________
-2. ___________________________________________________
-3. ___________________________________________________
