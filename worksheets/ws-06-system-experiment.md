@@ -82,85 +82,62 @@ SYSTEM-EXPERIMENT MAPPING
 
 Research Question: ____________________
 
-Variable → Component Mapping:
-| Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
-|----------|------|-----------------|---------------------------|
-|          | IV   |                 |                           |
-|          | DV   |                 |                           |
-|          | CV   |                 |                           |
-
-4 Prinsip Desain:
-  [ ] Traceability — Setiap komponen bisa ditelusuri ke variabel
-  [ ] Variable Isolation — IV bisa diubah tanpa mengubah CV
-  [ ] Measurement Integration — Pengukuran DV built-in
-  [ ] Reproducibility — Setup bisa direkonstruksi
-
-Experimental Setup:
-  Input data     : ____________________
-  Parameter      : ____________________
-  Output format  : ____________________
-```
-
+*"Apakah integrasi fitur kontekstual (promo dan hari libur) pada arsitektur LSTM dapat menurunkan nilai Mean Absolute Percentage Error (MAPE) secara signifikan dibandingkan dengan model Vanilla LSTM pada dataset ritel menengah?"*
+ 
 ---
-
-## Latihan 1 — Variable-to-Component Mapping
-
-Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
-
-**RQ:** __________________________________________________
-
+ 
+## 📋 Latihan 1 — Variable-to-Component Mapping
+ 
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
-|----------|------|-----------------|---------------------------|
-| *Contoh: Jenis model* | *IV* | *Modul classifier (swap RF ↔ CNN)* | *Ganti config `model_type`* |
-| | DV | | |
-| | CV | | |
-
-**Apakah semua variabel bisa di-map?** [ ] Ya / [ ] Tidak
-> Jika tidak, komponen apa yang perlu ditambahkan? _________
-
+|----------|------|-----------------|------------------------------|
+| Variasi Fitur Input | IV | Feature Engineering Pipeline | Mengaktifkan/menonaktifkan penggabungan (concatenation) vektor fitur eksternal ke dalam matriks data sekuensial. |
+| Nilai Error Peramalan (MAPE & RMSE) | DV | Metrics Logger & Visualization Dashboard | Fungsi matematika berbasis Scikit-Learn mengekstrak nilai keluaran model dan menghitung nilai MAPE-nya secara otomatis. |
+| Hyperparameter Model | CV | Hyperparameter Config Layer | Mengunci arsitektur jaringan (jumlah hidden layers dan tingkat dropout) di dalam file konfigurasi terpisah agar tidak berubah selama uji coba. |
+ 
+**Apakah semua variabel bisa di-map?** ✅ Ya
+ 
+> **Justifikasi:** Arsitektur sistem dirancang secara modular — memisahkan jalur data preparation, pemodelan (core engine), dan evaluasi — sehingga mempermudah pemetaan setiap variabel riset.
+ 
 ---
-
-## Latihan 2 — 4 Prinsip Desain
-
-Evaluasi desain sistem terhadap 4 prinsip.
-
+ 
+## 🛠️ Latihan 2 — Evaluasi 4 Prinsip Desain Sistem
+ 
 | Prinsip | Status | Bukti / Penjelasan |
-|---------|--------|-------------------|
-| Traceability | *Contoh: ✅ — setiap modul punya label variabel* | |
-| Modularity | | |
-| Controllability | | |
-| Measurability | | |
-
-**Prinsip mana yang paling sulit dipenuhi?** _______________
-**Strategi untuk mengatasinya:**
-> ___________________________________________________
-
+|---------|--------|--------------------|
+| Traceability | ✅ Lulus | Alur kode program mengalir searah dari penyiapan data (IV & CV) menuju fungsi pelatihan hingga menghasilkan metrik pengujian (DV). |
+| Modularity | ✅ Lulus | Komponen feature loader eksternal terpisah dari blok kode utama algoritma LSTM, sehingga data promo bisa dicabut tanpa merusak program. |
+| Controllability | ✅ Lulus | Seluruh parameter kontrol seperti batasan waktu, learning rate, dan ukuran sliding window dikumpulkan di satu file konfigurasi (`config.json`). |
+| Measurability | ✅ Lulus | Setiap kali iterasi pelatihan (epoch) atau pengujian selesai, sistem langsung memicu fungsi kalkulasi skor akurasi dan menyimpannya secara permanen. |
+ 
+**Prinsip paling sulit dipenuhi:** Controllability
+ 
+> **Strategi Mengatasi:** Sangat menantang untuk mengontrol kebersihan data di lapangan agar benar-benar konstan (CV), karena terkadang ada anomali tak terduga seperti toko tiba-tiba tutup karena kendala teknis operasional. Strateginya adalah membuat modul penanganan data (*data cleaning layer*) yang secara otomatis menyaring atau mengimputasi (impute) data kosong berdasarkan pola rata-rata hari sejenis sebelum data dimasukkan ke model.
+ 
 ---
-
-## Latihan 3 — Ablation Study Planning
-
-Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
-
-> **Panduan jumlah kondisi:** Untuk 3 komponen (A, B, C), kondisi minimal yang direkomendasikan:
-> Full + (-A) + (-B) + (-C) = **4 kondisi dasar**. Jika waktu memungkinkan, tambahkan kombinasi ganda: (-A,-B), (-A,-C), (-B,-C) = **7 kondisi**. Sesuaikan dengan *computational cost* dan tenggat waktu penelitian.
-
-| Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
-|---------|-----------|-----------|-----------|----------------------|
-| Full | *Contoh: ✅ CNN* | *Contoh: ✅ Temporal features* | *Contoh: ✅ Z-score norm* | *Baseline penuh* |
-| – A | ❌ (ganti RF) | ✅ | ✅ | |
-| – B | ✅ | ❌ (tanpa temporal) | ✅ | |
-| – C | ✅ | ✅ | ❌ (tanpa normalisasi) | |
-
-**Komponen mana yang diprediksi paling berkontribusi?** _____
-**Mengapa?**
-> ___________________________________________________
-
+ 
+## 🧪 Latihan 3 — Ablation Study Planning
+ 
+> Sistem ini memiliki **3 komponen fitur utama:**
+> - **A** — Fitur Histori Penjualan
+> - **B** — Fitur Promo Internal
+> - **C** — Fitur Hari Libur Nasional
+ 
+| Kondisi | Komponen A (Histori) | Komponen B (Promo) | Komponen C (Libur) | Hasil yang Diharapkan |
+|---------|----------------------|--------------------|--------------------|----------------------|
+| Full | ✅ Aktif | ✅ Aktif | ✅ Aktif | Nilai MAPE terendah (akurasi paling optimal secara menyeluruh). |
+| – B | ✅ Aktif | ❌ Non-Aktif | ✅ Aktif | Akurasi menurun pada hari kerja biasa yang memiliki program diskon mendadak. |
+| – C | ✅ Aktif | ✅ Aktif | ❌ Non-Aktif | Akurasi anjlok drastis pada periode libur panjang/Lebaran (peak season error). |
+| Baseline | ✅ Aktif | ❌ Non-Aktif | ❌ Non-Aktif | Model Vanilla LSTM standar (hanya membaca pola masa lalu tanpa tahu situasi pasar). |
+ 
+**Komponen yang diprediksi paling berkontribusi:** Komponen C (Fitur Hari Libur Nasional)
+ 
+> **Alasan:** Di Indonesia, siklus hari libur keagamaan (seperti Ramadan dan Lebaran) menciptakan lonjakan volume belanja (*demand spike*) hingga berkali-kali lipat dari hari biasa. Jika fitur ini dihilangkan, model LSTM akan mengalami kebingungan karena menganggap lonjakan tersebut sebagai gangguan acak (*noise*), bukan sebagai pola berulang tahunan.
+ 
 ---
-
-## Refleksi
-
-> Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
-
-**Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+ 
+## 💡 Refleksi
+ 
+ Risiko terbesar jika membangun sistem riset seperti produk komersial (monolitik dan langsung kaya fitur) adalah munculnya **efek bias tersembunyi**. Ketika eksperimen dilakukan dan hasilnya buruk atau justru sangat bagus, peneliti akan kesulitan melacak komponen mana yang sebenarnya membawa dampak tersebut karena semua kode saling terikat erat (*tightly coupled*).
+ 
+> Arsitektur modular sangat krusial dalam dunia riset karena mengizinkan kita melakukan **Isolasi Variabel**. Kita bisa secara adil membandingkan performa dengan skema mencabut satu komponen (seperti pada *Ablation Study*) tanpa perlu merombak atau menulis ulang baris kode sistem dari awal. Hal ini menjamin transparansi, keadilan pengujian, dan aspek reprodusibilitas riset.
+ 
