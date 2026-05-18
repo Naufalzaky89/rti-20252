@@ -82,11 +82,11 @@ SYSTEM-EXPERIMENT MAPPING
 
 Research Question: ____________________
 
-*"Apakah integrasi fitur kontekstual (promo dan hari libur) pada arsitektur LSTM dapat menurunkan nilai Mean Absolute Percentage Error (MAPE) secara signifikan dibandingkan dengan model Vanilla LSTM pada dataset ritel menengah?"*
+Apakah integrasi fitur kontekstual (promo dan hari libur) pada arsitektur LSTM dapat menurunkan nilai Mean Absolute Percentage Error (MAPE) secara signifikan dibandingkan dengan model Vanilla LSTM pada dataset ritel menengah?
  
 ---
  
-## 📋 Latihan 1 — Variable-to-Component Mapping
+ Latihan 1 — Variable-to-Component Mapping
  
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
 |----------|------|-----------------|------------------------------|
@@ -94,13 +94,13 @@ Research Question: ____________________
 | Nilai Error Peramalan (MAPE & RMSE) | DV | Metrics Logger & Visualization Dashboard | Fungsi matematika berbasis Scikit-Learn mengekstrak nilai keluaran model dan menghitung nilai MAPE-nya secara otomatis. |
 | Hyperparameter Model | CV | Hyperparameter Config Layer | Mengunci arsitektur jaringan (jumlah hidden layers dan tingkat dropout) di dalam file konfigurasi terpisah agar tidak berubah selama uji coba. |
  
-**Apakah semua variabel bisa di-map?**  Ya
+Apakah semua variabel bisa di-map?  Ya
  
-> **Justifikasi:** Arsitektur sistem dirancang secara modular — memisahkan jalur data preparation, pemodelan (core engine), dan evaluasi — sehingga mempermudah pemetaan setiap variabel riset.
+Justifikasi: Arsitektur sistem dirancang secara modular — memisahkan jalur data preparation, pemodelan (core engine), dan evaluasi — sehingga mempermudah pemetaan setiap variabel riset.
  
 ---
  
-## 🛠️ Latihan 2 — Evaluasi 4 Prinsip Desain Sistem
+ Latihan 2 — Evaluasi 4 Prinsip Desain Sistem
  
 | Prinsip | Status | Bukti / Penjelasan |
 |---------|--------|--------------------|
@@ -109,18 +109,18 @@ Research Question: ____________________
 | Controllability |  Lulus | Seluruh parameter kontrol seperti batasan waktu, learning rate, dan ukuran sliding window dikumpulkan di satu file konfigurasi (`config.json`). |
 | Measurability |  Lulus | Setiap kali iterasi pelatihan (epoch) atau pengujian selesai, sistem langsung memicu fungsi kalkulasi skor akurasi dan menyimpannya secara permanen. |
  
-**Prinsip paling sulit dipenuhi:** Controllability
+Prinsip paling sulit dipenuhi:Controllability
  
-> **Strategi Mengatasi:** Sangat menantang untuk mengontrol kebersihan data di lapangan agar benar-benar konstan (CV), karena terkadang ada anomali tak terduga seperti toko tiba-tiba tutup karena kendala teknis operasional. Strateginya adalah membuat modul penanganan data (*data cleaning layer*) yang secara otomatis menyaring atau mengimputasi (impute) data kosong berdasarkan pola rata-rata hari sejenis sebelum data dimasukkan ke model.
+> Strategi Mengatasi: Sangat menantang untuk mengontrol kebersihan data di lapangan agar benar-benar konstan (CV), karena terkadang ada anomali tak terduga seperti toko tiba-tiba tutup karena kendala teknis operasional. Strateginya adalah membuat modul penanganan data (*data cleaning layer*) yang secara otomatis menyaring atau mengimputasi (impute) data kosong berdasarkan pola rata-rata hari sejenis sebelum data dimasukkan ke model.
  
 ---
  
-## 🧪 Latihan 3 — Ablation Study Planning
+ Latihan 3 — Ablation Study Planning
  
-> Sistem ini memiliki **3 komponen fitur utama:**
-> - **A** — Fitur Histori Penjualan
-> - **B** — Fitur Promo Internal
-> - **C** — Fitur Hari Libur Nasional
+> Sistem ini memiliki 3 komponen fitur utama:
+> - A — Fitur Histori Penjualan
+> - B — Fitur Promo Internal
+> - C — Fitur Hari Libur Nasional
  
 | Kondisi | Komponen A (Histori) | Komponen B (Promo) | Komponen C (Libur) | Hasil yang Diharapkan |
 |---------|----------------------|--------------------|--------------------|----------------------|
@@ -135,7 +135,7 @@ alsaaan: Di Indonesia, siklus hari libur keagamaan (seperti Ramadan dan Lebaran)
  
 ---
  
-##  Refleksi
+  Refleksi
  
  Risiko terbesar jika membangun sistem riset seperti produk komersial (monolitik dan langsung kaya fitur) adalah munculnya efek bias tersembunyi. Ketika eksperimen dilakukan dan hasilnya buruk atau justru sangat bagus, peneliti akan kesulitan melacak komponen mana yang sebenarnya membawa dampak tersebut karena semua kode saling terikat erat (tightly coupled).
  
