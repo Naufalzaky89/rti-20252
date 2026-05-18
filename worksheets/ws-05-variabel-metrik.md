@@ -22,7 +22,7 @@ Menerjemahkan konsep abstrak menjadi variabel terukur bukan proses mekanis. "Cod
 
 | Tipe | Ciri | Contoh | Operasi Valid |
 |------|------|--------|---------------|
-| **Nominal** | Kategori, tanpa urutan | Jenis algoritma (RF, SVM, CNN) | Modus, chi-square |
+| **Nominal** | Kategori, tanpa urutan | Jenis algoritma (RF, SVM, CNN) | Modus chi-square |
 | **Ordinal** | Urutan, interval tidak sama | Skala Likert (1-5) | Median, Spearman |
 | **Interval** | Jarak bermakna, tanpa nol absolut | Suhu Celsius | Mean, Pearson, t-test |
 | **Ratio** | Jarak bermakna + nol absolut | Waktu eksekusi (ms) | Semua operasi |
@@ -90,7 +90,7 @@ Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
 | Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
 |----------|------|---------------|----------------|-------------|--------|
-|Arsitektur Model|IV|Metode pemrosesan data deret waktu ritel| Kategori input (0: Tanpa Fitur, 1: Dengan Fitur Eksternal)|Nominal|
+|Arsitektur Model|IV|Metode pemrosesan data deret waktu ritel| Kategori input (0: Tanpa Fitur, 1: Dengan Fitur Eksternal|Nominal|
 |Kesalahan Prediksi|DV|Tingkat penyimpangan kuantitatif model|Nilai MAPE dan RMSE hasil pengujian test-set|Ratio|Persen (%) & Unit Produk|
 |Periode Waktu Data|CV|Durasi siklus operasional bisnis|Batasan temporal data historis (3 tahun kalender transaksi)|Ratio|Tahun|
 **Apakah ada lompatan logis dalam rantai?** [ ] Ya / [x] Tidak
@@ -105,8 +105,9 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
 |Representative|5|MAPE mewakili persentase kesalahan yang intuitif bagi manajer gudang dalam mengukur penyimpangan stok|
-|Sensitive|4|"Cukup peka terhadap fluktuasi perubahan kecil per hari, namun rentan terganggu jika ada nilai penjualan aktual yang bernilai nol (0)."|
-|Feasible|5|Sangat mudah dihitung menggunakan pustaka komputasi standar (Scikit-Learn / TensorFlow dalam Python)|.
+|Sensitive|4|Cukup peka terhadap fluktuasi perubahan kecil per hari, namun rentan terganggu jika ada nilai penjualan aktual yang bernilai nol (0)|
+|Feasible|5|Sangat mudah dihitung menggunakan pustaka komputasi standar (Scikit-Learn / TensorFlow dalam Python)|
+
 **Apakah perlu secondary metric?** [x] Ya / [ ] Tidak
 > Jika ya, apa dan mengapa? _Perlu menyertakan RMSE (Root Mean Square Error) sebagai metrik sekunder. Karena MAPE mengukur persentase kesalahan rata-rata secara merata, sedangkan RMSE memberikan penalti bobot yang lebih tinggi pada kesalahan prediksi berskala besar (lonjakan ekstrim), yang sangat krusial dalam mendeteksi risiko stockout parah.____________________________
 
@@ -123,8 +124,8 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 |---------|-----------|---------|------------------|
 |Completeness|Apakah semua data point terkumpul|Berpotensi ada hari di mana toko tutup atau sistem POS error sehingga terjadi missing value|Menerapkan metode Imputation (seperti Linear Interpolation atau pengisian nilai 0 pada tanggal libur resmi toko)|
 |Consistency|Apakah ada kontradiksi internal|Ada kemungkinan pencatatan retur barang memotong total penjualan harian secara rancu|Melakukan data cleaning untuk memisahkan data penjualan kotor (gross sales) dengan penyesuaian retur terpisah|
-|Validity|Apakah benar-benar mengukur yang dimaksud?|"Ya, jumlah barang keluar di kasir merepresentasikan permintaan riil pasar pada hari tersebut|",Memvalidasi silang (cross-check) total transaksi harian POS dengan data fisik pengurangan stok di gudang utama|
-|Representativeness|Apakah sampel mewakili populasi target?|"Data 3 tahun terakhir mencakup siklus musiman tahunan penuh (Ramadan, akhir tahun) di Indonesia|",Memastikan pembagian data train dan test menjaga struktur urutan waktu (Time-Series Split) agar pola musiman terwakili adil|
+|Validity|Apakah benar-benar mengukur yang dimaksud?|Ya, jumlah barang keluar di kasir merepresentasikan permintaan riil pasar pada hari tersebut|Memvalidasi silang (cross-check) total transaksi harian POS dengan data fisik pengurangan stok di gudang utama|
+|Representativeness|Apakah sampel mewakili populasi target?|Data 3 tahun terakhir mencakup siklus musiman tahunan penuh (Ramadan, akhir tahun) di Indonesia|Memastikan pembagian data train dan test menjaga struktur urutan waktu (Time-Series Split) agar pola musiman terwakili adil|
 ## Refleksi
 
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
